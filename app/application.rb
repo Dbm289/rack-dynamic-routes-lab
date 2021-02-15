@@ -1,4 +1,4 @@
-
+require 'pry'
 
 class Application
 
@@ -8,15 +8,16 @@ class Application
         resp = Rack::Response.new
         req = Rack::Request.new(env)
 
-        if req.path.match("/items/")
-            byebug
-            search_term = req.params["#{ITEM NAME}"]
+        if req.path.match(/items/)
+            item_name = req.params["#{ITEM NAME}"]
+            #binding.pry
+            item =@@items.find{|i| i.name == item_name}
             #resp.write "#{ITEM NAME}"
-            if @@items.include?(search_term)
-                resp.write "#{@price}"
+            if @@items.include?(item)
+                resp.write item.price
             else 
-                resp.write "We don't have that item"
                 resp.status = 400
+                resp.write "Item not found"
             end
 
         else 
