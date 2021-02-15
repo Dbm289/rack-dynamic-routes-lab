@@ -1,3 +1,5 @@
+
+
 class Application
 
     @@items = []
@@ -6,7 +8,8 @@ class Application
         resp = Rack::Response.new
         req = Rack::Request.new(env)
 
-        if req.path=="/items/&lt;ITEM NAME>"
+        if req.path.match("/items/")
+            byebug
             search_term = req.params["#{ITEM NAME}"]
             #resp.write "#{ITEM NAME}"
             if @@items.include?(search_term)
